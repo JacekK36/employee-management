@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type EmployeeType = {
   id?: number;
@@ -27,6 +27,8 @@ type EmployeesContextProps = {
   employee: EmployeeType;
   isEditable: boolean;
   allowDelete: boolean;
+  page: number;
+  maxPage: number;
   handleNewEmployeeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   handleNewEmployeeSubmit: (event: FormEvent<HTMLFormElement>) => void;
   getSingleEmployee: (id: string) => Promise<any>;
@@ -36,6 +38,8 @@ type EmployeesContextProps = {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
   setAllowDelete: React.Dispatch<React.SetStateAction<boolean>>;
   handleDelete: () => void;
+  handlePage: (num: number) => void;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 type EmployeesProviderProps = {
@@ -61,19 +65,42 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     status: "",
     phone: "",
   });
-  const [employee, setEmployee] = useState({} as EmployeeType);
+  const [employee, setEmployee] = useState({
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    salary: 0,
+    status: "",
+    phone: "",
+  } as EmployeeType);
   const [isEditable, setIsEditable] = useState(false);
   const [allowDelete, setAllowDelete] = useState(false);
 
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const queryParams = new URLSearchParams(location.search);
+  const pageParam = Number(queryParams.get("_page"));
+
+  const [page, setPage] = useState(pageParam || 1);
+  const [maxPage, setMaxPage] = useState(1);
 
   // wprowadzamy funkcję do pobrania danych
   const getEmployees = async () => {
+    const limit = 5;
     try {
-      const response = await fetch(`${URL}/employees`);
+      const response = await fetch(
+        `${URL}/employees?_page=${page}&_limit=${limit}`
+      );
 
       if (!response.ok)
         throw new Error("Somethnig went wrong while fetching Employees");
+
+      const count = await response.headers.get("X-Total-Count");
+      if (count) setMaxPage(Math.ceil(Number(count) / limit));
 
       const data = await response.json();
 
@@ -244,9 +271,30 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     setIsEditable((prev) => !prev);
   };
 
+  const handlePage = (num: number) => {
+    if (num === 1 || num === -1) {
+      if (page === 1 && num === -1) {
+        return;
+      } else if (page === maxPage && num === 1) return;
+      setPage((prev) => prev + num);
+    }
+  };
+
   useEffect(() => {
+    queryParams.set("_page", `${page}`);
+    navigate(`/employees?${queryParams}`);
     getEmployees();
-  }, []);
+    if (page > maxPage) {
+      setPage(maxPage);
+    }
+  }, [page, maxPage]);
+
+  // useEffect(() => {
+  //   if (Number(queryParams.get("_page")) > maxPage) {
+  //     queryParams.set("_page", `${maxPage}`);
+  //     navigate(`/employees?${queryParams}`);
+  //   }
+  // }, [maxPage, queryParams]);
 
   return (
     <EmployeesContext.Provider
@@ -256,6 +304,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         employee,
         isEditable,
         allowDelete,
+        page,
+        maxPage,
         handleNewEmployeeInput,
         handleNewEmployeeSubmit,
         getSingleEmployee,
@@ -265,6 +315,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         setIsEditable,
         setAllowDelete,
         handleDelete,
+        handlePage,
+        setPage,
       }}
     >
       {children}
