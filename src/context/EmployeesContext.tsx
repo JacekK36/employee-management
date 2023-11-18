@@ -90,9 +90,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   const getEmployees = async () => {
     console.log("render");
     try {
-      const response = await fetch(
-        `${URL}/employees?q=a&_page=${page}&_limit=5`
-      );
+      const response = await fetch(`${URL}/employees?_page=${page}&_limit=5`);
 
       if (!response.ok)
         throw new Error("Somethnig went wrong while fetching Employees");
