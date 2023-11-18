@@ -228,6 +228,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     event.preventDefault();
 
     editEmployee();
+    getEmployees();
   };
 
   const handleDelete = async () => {
@@ -245,7 +246,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
 
   useEffect(() => {
     getEmployees();
-  }, [employeesList]);
+  }, []);
 
   return (
     <EmployeesContext.Provider

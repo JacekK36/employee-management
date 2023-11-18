@@ -37,7 +37,7 @@ export const EmployeeDetails = () => {
         <form onSubmit={handleEditEmployee} className="employee-details__form">
           <input type="hidden" value={id} />
           <label htmlFor="firstName" className="employee-details__first-name">
-            Imię:{" "}
+            First Name:{" "}
             <input
               className="employee-details__input"
               id="firstName"
@@ -50,7 +50,7 @@ export const EmployeeDetails = () => {
             />
           </label>
           <label htmlFor="lastName" className="employee-details__last-name">
-            Nazwisko:{" "}
+            Last Name:{" "}
             <input
               className="employee-details__input"
               id="lastName"
@@ -63,7 +63,7 @@ export const EmployeeDetails = () => {
             />
           </label>
           <label htmlFor="birthDate" className="employee-details__birth-date">
-            Data urodzenia:{" "}
+            Birth Date:{" "}
             <input
               className="employee-details__input"
               id="birthDate"
@@ -77,7 +77,7 @@ export const EmployeeDetails = () => {
             />
           </label>
           <label htmlFor="phone" className="employee-details__phone">
-            Telefon:{" "}
+            Phone:{" "}
             <input
               className="employee-details__input"
               id="phone"
@@ -90,7 +90,7 @@ export const EmployeeDetails = () => {
             />
           </label>
           <label htmlFor="address" className="employee-details__address">
-            Adres:{" "}
+            Address:{" "}
             <input
               className="employee-details__input"
               id="address"
@@ -103,7 +103,7 @@ export const EmployeeDetails = () => {
             />
           </label>
           <label htmlFor="city" className="employee-details__city">
-            Miasto:{" "}
+            City:{" "}
             <input
               className="employee-details__input"
               id="city"
@@ -116,7 +116,7 @@ export const EmployeeDetails = () => {
             />
           </label>
           <label htmlFor="postalCode" className="employee-details__postal-code">
-            Kod pocztowy:{" "}
+            Postal Code:{" "}
             <input
               className="employee-details__input"
               id="postalCode"
@@ -129,7 +129,7 @@ export const EmployeeDetails = () => {
             />
           </label>
           <label htmlFor="salary" className="employee-details__salary">
-            Wynagrodzenie:{" "}
+            Salary:{" "}
             <input
               className="employee-details__input"
               id="salary"
@@ -160,20 +160,20 @@ export const EmployeeDetails = () => {
               type="button"
               onClick={() => toggleEditing(id!)}
             >
-              Edytuj pracownika
+              Edit Employee
             </button>
           )}
           {isEditable && (
             <>
               <button type="submit" className="employee-details__save">
-                Zapisz
+                Save
               </button>
               <button
                 type="button"
                 className="employee-details__cancel"
                 onClick={() => toggleEditing(id!)}
               >
-                Anuluj
+                Cancel
               </button>
             </>
           )}
@@ -182,24 +182,27 @@ export const EmployeeDetails = () => {
             type="button"
             onClick={() => setAllowDelete(true)}
           >
-            Usuń
+            Delete
           </button>
         </form>
 
         {allowDelete && (
           <div className="employee-details__allow">
             <p>
-              Czy na pewno chcesz usunąć {employee.firstName}{" "}
-              {employee.lastName} z listy pracowników?
+              Are you sure you want to remove{" "}
+              <b>
+                {employee.firstName} {employee.lastName}
+              </b>{" "}
+              from your employee list?
             </p>
             <button className="employee-details__save" onClick={handleDelete}>
-              Tak
+              Yes
             </button>
             <button
               className="employee-details__cancel"
               onClick={() => setAllowDelete(false)}
             >
-              Nie
+              No
             </button>
           </div>
         )}
