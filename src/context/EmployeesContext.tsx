@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type EmployeeType = {
   id?: number;
@@ -27,6 +27,7 @@ type EmployeesContextProps = {
   employee: EmployeeType;
   isEditable: boolean;
   allowDelete: boolean;
+  page: number;
   handleNewEmployeeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   handleNewEmployeeSubmit: (event: FormEvent<HTMLFormElement>) => void;
   getSingleEmployee: (id: string) => Promise<any>;
@@ -36,6 +37,8 @@ type EmployeesContextProps = {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
   setAllowDelete: React.Dispatch<React.SetStateAction<boolean>>;
   handleDelete: () => void;
+  handlePage: (num: number) => void;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 type EmployeesProviderProps = {
@@ -61,16 +64,35 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     status: "",
     phone: "",
   });
-  const [employee, setEmployee] = useState({} as EmployeeType);
+  const [employee, setEmployee] = useState({
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    salary: 0,
+    status: "",
+    phone: "",
+  } as EmployeeType);
   const [isEditable, setIsEditable] = useState(false);
   const [allowDelete, setAllowDelete] = useState(false);
 
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const queryParams = new URLSearchParams(location.search);
+  const pageParam = queryParams.get("_page");
+
+  const [page, setPage] = useState(Number(pageParam) || 1);
 
   // wprowadzamy funkcję do pobrania danych
   const getEmployees = async () => {
+    console.log("render");
     try {
-      const response = await fetch(`${URL}/employees`);
+      const response = await fetch(
+        `${URL}/employees?q=a&_page=${page}&_limit=5`
+      );
 
       if (!response.ok)
         throw new Error("Somethnig went wrong while fetching Employees");
@@ -244,9 +266,19 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     setIsEditable((prev) => !prev);
   };
 
+  const handlePage = (num: number) => {
+    if (num === 1 || num === -1) {
+      if (page === 1 && num === -1) {
+        return;
+      }
+      setPage((prev) => prev + num);
+    }
+  };
+
   useEffect(() => {
+    navigate(`/employees?_page=${page}`);
     getEmployees();
-  }, []);
+  }, [page]);
 
   return (
     <EmployeesContext.Provider
@@ -256,6 +288,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         employee,
         isEditable,
         allowDelete,
+        page,
         handleNewEmployeeInput,
         handleNewEmployeeSubmit,
         getSingleEmployee,
@@ -265,6 +298,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         setIsEditable,
         setAllowDelete,
         handleDelete,
+        handlePage,
+        setPage,
       }}
     >
       {children}

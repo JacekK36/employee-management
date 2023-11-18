@@ -31,7 +31,7 @@ export const EmployeeDetails = () => {
     <>
       <div
         className="employee-details__background"
-        onClick={() => navigate("/employees")}
+        onClick={() => navigate(-1)}
       ></div>
       <div className="employee-details__modal">
         <form onSubmit={handleEditEmployee} className="employee-details__form">
