@@ -5,9 +5,15 @@ import { Logo } from "../Logo";
 
 export const Header = () => {
   return (
-    <div className="header-box">
+    <header className="header-box">
+      <div className="logo-box">
+        <Logo />
+        <h1 className="title">Employee Management App</h1>
+      </div>
+      <div className="browser">
+        <Browser />
+      </div>
       <nav className="header">
-        <h1 className="header__title">Employee Management App</h1>
         <ul className="header__list">
           <li>
             <NavLink to={"/"} className="header__list-item">
@@ -15,20 +21,17 @@ export const Header = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to={"/EmployeesList"} className="header__list-item">
+            <NavLink to={"/employees"} className="header__list-item">
               Employees list
             </NavLink>
           </li>
           <li>
-            <NavLink to={"/Browser"} className="header__list-item-searching">
-              <Browser />
+            <NavLink to={"/employees/new"} className={"header__list-item"}>
+              Add employee
             </NavLink>
           </li>
         </ul>
       </nav>
-      <div className="logo-box">
-        <Logo />
-      </div>
-    </div>
+    </header>
   );
 };

@@ -1,32 +1,48 @@
 .header-box {
   width: 100%;
-  height: 250px;
+  height: 100px;
   display: flex;
   background-color: black;
+  position: fixed;
+  top: 0;
+}
+
+.logo-box {
+  display: flex;
+  width: 50%;
+  height: 100%;
+  justify-content: left;
+}
+
+.title {
+  display: flex;
+
+  color: white;
+  margin: 39px;
+  font-size: 20px;
+}
+
+.browser {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 .header {
   width: 50%;
   box-sizing: border-box;
-  padding: 5px;
-  font-size: 20px;
-  line-height: 2;
 
-  &__title {
-    text-align: left;
-    color: white;
-    margin: 10px;
-  }
   &__list {
     list-style: none;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-around;
+    margin-top: 10px;
   }
+
   &__list-item {
     text-decoration: none;
-    font-size: 20px;
+    font-size: 15px;
     color: white;
-    margin-left: 20px;
   }
 
   &__list-item:hover {
@@ -37,11 +53,4 @@
     border-radius: 5px;
     background-color: white;
   }
-  &__list-item-searching {
-    margin-left: 20px;
-    padding: 5px;
-  }
-}
-.logo-box {
-  width: 50%;
 }
