@@ -1,28 +1,16 @@
 {
   "employees": [
     {
-      "id": 1,
-      "firstName": "Janusz",
-      "lastName": "Kowalski",
-      "birthDate": "1985-05-15",
-      "address": "Kwiatowa 8",
-      "city": "Warszawa",
-      "postalCode": "00-001",
-      "salary": 5000,
-      "status": "Aktywny",
-      "phone": "123-456-789"
-    },
-    {
       "id": 2,
       "firstName": "Anna",
-      "lastName": "Nowak",
-      "birthDate": "1990-12-20",
-      "address": "Słoneczna 8",
+      "lastName": "Nowaczkiewicz",
+      "birthDate": "1991-12-20",
+      "address": "Słoneczna 9",
       "city": "Kraków",
       "postalCode": "30-001",
-      "salary": 6000,
+      "salary": "6100",
       "status": "Aktywny",
-      "phone": "987-654-321"
+      "phone": "987-654-323"
     },
     {
       "id": 3,
@@ -131,30 +119,6 @@
       "status": "test",
       "phone": "testtesttestt",
       "id": 11
-    },
-    {
-      "firstName": "",
-      "lastName": "",
-      "birthDate": "",
-      "address": "",
-      "city": "",
-      "postalCode": "",
-      "salary": 0,
-      "status": "",
-      "phone": "",
-      "id": 12
-    },
-    {
-      "firstName": "",
-      "lastName": "",
-      "birthDate": "",
-      "address": "",
-      "city": "",
-      "postalCode": "",
-      "salary": 0,
-      "status": "",
-      "phone": "",
-      "id": 13
     }
   ]
 }
