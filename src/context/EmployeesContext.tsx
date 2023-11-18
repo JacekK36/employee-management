@@ -33,6 +33,7 @@ type EmployeesContextProps = {
   handleEditEmployeeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   handleEditEmployee: (event: FormEvent<HTMLFormElement>) => void;
   toggleEditing: (id: string) => void;
+  setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
   setAllowDelete: React.Dispatch<React.SetStateAction<boolean>>;
   handleDelete: () => void;
 };
@@ -244,7 +245,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
 
   useEffect(() => {
     getEmployees();
-  }, []);
+  }, [employeesList]);
 
   return (
     <EmployeesContext.Provider
@@ -260,6 +261,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         handleEditEmployeeInput,
         handleEditEmployee,
         toggleEditing,
+        setIsEditable,
         setAllowDelete,
         handleDelete,
       }}
