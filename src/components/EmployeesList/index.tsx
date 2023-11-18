@@ -1,12 +1,13 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import "./EmployeesList.scss";
 import { EmployeesContext } from "../../context/EmployeesContext";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { EmployeeDetails } from "../EmployeeDetails";
 
 export const EmployeesList = () => {
   const { id } = useParams();
-  const { employeesList, page, handlePage } = useContext(EmployeesContext);
+  const { employeesList, page, maxPage, handlePage } =
+    useContext(EmployeesContext);
   const navigate = useNavigate();
 
   return (
@@ -32,9 +33,15 @@ export const EmployeesList = () => {
         ) : (
           <p>Brak pracowników</p>
         )}
-        <button onClick={() => handlePage(-1)}>Prev</button>
-        <span>{page}</span>
-        <button onClick={() => handlePage(1)}>Next</button>
+        <button onClick={() => handlePage(-1)} disabled={page === 1}>
+          Prev
+        </button>
+        <span>
+          {page} of {maxPage}
+        </span>
+        <button onClick={() => handlePage(1)} disabled={page === maxPage}>
+          Next
+        </button>
       </div>
       {id && <EmployeeDetails />}
     </>

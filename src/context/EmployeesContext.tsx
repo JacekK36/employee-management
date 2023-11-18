@@ -28,6 +28,7 @@ type EmployeesContextProps = {
   isEditable: boolean;
   allowDelete: boolean;
   page: number;
+  maxPage: number;
   handleNewEmployeeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   handleNewEmployeeSubmit: (event: FormEvent<HTMLFormElement>) => void;
   getSingleEmployee: (id: string) => Promise<any>;
@@ -82,18 +83,24 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
-  const pageParam = queryParams.get("_page");
+  const pageParam = Number(queryParams.get("_page"));
 
-  const [page, setPage] = useState(Number(pageParam) || 1);
+  const [page, setPage] = useState(pageParam || 1);
+  const [maxPage, setMaxPage] = useState(1);
 
   // wprowadzamy funkcję do pobrania danych
   const getEmployees = async () => {
-    console.log("render");
+    const limit = 5;
     try {
-      const response = await fetch(`${URL}/employees?_page=${page}&_limit=5`);
+      const response = await fetch(
+        `${URL}/employees?_page=${page}&_limit=${limit}`
+      );
 
       if (!response.ok)
         throw new Error("Somethnig went wrong while fetching Employees");
+
+      const count = await response.headers.get("X-Total-Count");
+      if (count) setMaxPage(Math.ceil(Number(count) / limit));
 
       const data = await response.json();
 
@@ -268,15 +275,26 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     if (num === 1 || num === -1) {
       if (page === 1 && num === -1) {
         return;
-      }
+      } else if (page === maxPage && num === 1) return;
       setPage((prev) => prev + num);
     }
   };
 
   useEffect(() => {
-    navigate(`/employees?_page=${page}`);
+    queryParams.set("_page", `${page}`);
+    navigate(`/employees?${queryParams}`);
     getEmployees();
-  }, [page]);
+    if (page > maxPage) {
+      setPage(maxPage);
+    }
+  }, [page, maxPage]);
+
+  // useEffect(() => {
+  //   if (Number(queryParams.get("_page")) > maxPage) {
+  //     queryParams.set("_page", `${maxPage}`);
+  //     navigate(`/employees?${queryParams}`);
+  //   }
+  // }, [maxPage, queryParams]);
 
   return (
     <EmployeesContext.Provider
@@ -287,6 +305,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         isEditable,
         allowDelete,
         page,
+        maxPage,
         handleNewEmployeeInput,
         handleNewEmployeeSubmit,
         getSingleEmployee,
