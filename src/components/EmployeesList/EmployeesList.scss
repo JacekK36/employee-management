@@ -1,0 +1,28 @@
+.table-striped {
+  background-color: transparent; 
+  
+  tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05); 
+  }
+}
+
+.employees-list {
+  margin-top: 20px; 
+}
+
+.employees-list__table {
+  list-style: none; 
+  padding: 0; 
+}
+
+.employees-list__table tr {
+  border: 1px solid #ccc; 
+  padding: 10px; 
+  margin-bottom: 10px; 
+  background-color: #fff;
+}
+
+.employees-list__table tr p {
+  margin: 5px 0; 
+}
+
