@@ -284,17 +284,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     queryParams.set("_page", `${page}`);
     navigate(`/employees?${queryParams}`);
     getEmployees();
-    if (page > maxPage) {
-      setPage(maxPage);
-    }
-  }, [page, maxPage]);
-
-  // useEffect(() => {
-  //   if (Number(queryParams.get("_page")) > maxPage) {
-  //     queryParams.set("_page", `${maxPage}`);
-  //     navigate(`/employees?${queryParams}`);
-  //   }
-  // }, [maxPage, queryParams]);
+  }, [page]);
 
   return (
     <EmployeesContext.Provider
