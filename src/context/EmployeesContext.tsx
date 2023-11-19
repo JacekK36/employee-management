@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDebounce } from "../Hooks/useDebounce";
 
 type EmployeeType = {
   id?: number;
@@ -35,6 +36,8 @@ type EmployeesContextProps = {
   toggleEditing: (id: string) => void;
   setAllowDelete: React.Dispatch<React.SetStateAction<boolean>>;
   handleDelete: () => void;
+  handleSearchInput: (event: ChangeEvent<HTMLInputElement>) => void;
+  searchTerm: string;
 };
 
 type EmployeesProviderProps = {
@@ -63,13 +66,15 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   const [employee, setEmployee] = useState({} as EmployeeType);
   const [isEditable, setIsEditable] = useState(false);
   const [allowDelete, setAllowDelete] = useState(false);
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const searchValue = useDebounce(searchTerm, 500);
   const navigate = useNavigate();
 
   // wprowadzamy funkcję do pobrania danych
   const getEmployees = async () => {
+    const searchURL = searchValue.length > 0 ? `q=${searchValue}` : "";
     try {
-      const response = await fetch(`${URL}/employees`);
+      const response = await fetch(`${URL}/employees?${searchURL}`);
 
       if (!response.ok)
         throw new Error("Somethnig went wrong while fetching Employees");
@@ -242,9 +247,13 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     setIsEditable((prev) => !prev);
   };
 
+  const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
   useEffect(() => {
     getEmployees();
-  }, []);
+  }, [searchValue]);
 
   return (
     <EmployeesContext.Provider
@@ -262,6 +271,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         toggleEditing,
         setAllowDelete,
         handleDelete,
+        handleSearchInput,
+        searchTerm,
       }}
     >
       {children}
