@@ -12,14 +12,16 @@
   justify-content: center;
 }
 
-.ButtonGroup {
-  padding: 100px;
-  margin-top: 160px;
+.homepage__text {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
 }
 
-.list-button {
+.btn-list {
   border-radius: 8px;
+}
+
+.homepage__link {
+  display: flex;
+  justify-content: center;
 }
