@@ -1,19 +1,7 @@
-body {
-  background-color: rgb(138, 210, 174);
-}
 .home {
-  display: block;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(69, 124, 176);
-  border-radius: 50px;
-  background: radial-gradient(
-    circle at center,
-    rgba(50, 142, 78),
-    rgba(255, 0, 0, 0)
-  );
+  margin: auto;
+  padding: 10px;
 }
-
 .home__title {
   display: flex;
   justify-content: center;
@@ -30,4 +18,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-end;
+}
+
+.list-button {
+  border-radius: 8px;
 }

@@ -1,0 +1,56 @@
+.header-box {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  background-color: black;
+  position: fixed;
+  top: 0;
+}
+
+.logo-box {
+  display: flex;
+  width: 50%;
+  height: 100%;
+  justify-content: left;
+}
+
+.title {
+  display: flex;
+
+  color: white;
+  margin: 39px;
+  font-size: 20px;
+}
+
+.browser {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.header {
+  width: 50%;
+  box-sizing: border-box;
+
+  &__list {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+
+  &__list-item {
+    text-decoration: none;
+    font-size: 15px;
+    color: white;
+  }
+
+  &__list-item:hover {
+    transition: 0.5s;
+    font-size: larger;
+    color: black;
+    border: 0px;
+    border-radius: 5px;
+    background-color: white;
+  }
+}
