@@ -11,7 +11,9 @@ export const Home = () => {
         Number of activ Employees: {employeesList.length}
       </p>
       <h4 className="homepage__text">Employees List</h4>
-      <button type="submit">Go to List</button>
+      <button type="submit" className="list-button">
+        Go to List
+      </button>
     </div>
   );
 };

@@ -1,18 +1,21 @@
 import "./Header.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Browser } from "../Browser";
 import { Logo } from "../Logo";
 
 export const Header = () => {
+  const location = useLocation();
   return (
     <header className="header-box">
       <div className="logo-box">
         <Logo />
         <h1 className="title">Employee Management App</h1>
       </div>
-      <div className="browser">
-        <Browser />
-      </div>
+      {location.pathname === "/employees" && (
+        <div className="browser">
+          <Browser />
+        </div>
+      )}
       <nav className="header">
         <ul className="header__list">
           <li>
