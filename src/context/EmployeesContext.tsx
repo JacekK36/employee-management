@@ -96,14 +96,12 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
 
   // wprowadzamy funkcję do pobrania danych
   const getEmployees = async () => {
-
     const searchURL = searchValue.length > 0 ? `q=${searchValue}&` : "";
     const limit = 5;
     try {
       const response = await fetch(
         `${URL}/employees?${searchURL}_page=${page}&_limit=${limit}`
       );
-
 
       if (!response.ok)
         throw new Error("Somethnig went wrong while fetching Employees");
@@ -280,9 +278,10 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     setIsEditable((prev) => !prev);
   };
 
-
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);}
+    setSearchTerm(event.target.value);
+    setPage(1);
+  };
   const handlePage = (num: number) => {
     if (num === 1 || num === -1) {
       if (page === 1 && num === -1) {
@@ -293,11 +292,15 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   };
 
   useEffect(() => {
-    queryParams.set("_page", `${page}`);
-    queryParams.set("q", `${searchValue}`);
+    searchValue.length > 0
+      ? queryParams.set("q", `${searchValue}`)
+      : queryParams.delete("q");
+    page > 1
+      ? queryParams.set("_page", `${page}`)
+      : queryParams.delete("_page");
+
     navigate(`/employees?${queryParams}`);
     getEmployees();
-
   }, [searchValue, page]);
 
   return (
