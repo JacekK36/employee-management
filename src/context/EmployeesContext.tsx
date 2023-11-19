@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useDebounce } from "../Hooks/useDebounce";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type EmployeeType = {
@@ -38,6 +39,9 @@ type EmployeesContextProps = {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
   setAllowDelete: React.Dispatch<React.SetStateAction<boolean>>;
   handleDelete: () => void;
+
+  handleSearchInput: (event: ChangeEvent<HTMLInputElement>) => void;
+  searchTerm: string;
   handlePage: (num: number) => void;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -78,6 +82,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   } as EmployeeType);
   const [isEditable, setIsEditable] = useState(false);
   const [allowDelete, setAllowDelete] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const searchValue = useDebounce(searchTerm, 500);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -90,10 +96,11 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
 
   // wprowadzamy funkcję do pobrania danych
   const getEmployees = async () => {
+    const searchURL = searchValue.length > 0 ? `q=${searchValue}&` : "";
     const limit = 5;
     try {
       const response = await fetch(
-        `${URL}/employees?_page=${page}&_limit=${limit}`
+        `${URL}/employees?${searchURL}_page=${page}&_limit=${limit}`
       );
 
       if (!response.ok)
@@ -271,6 +278,9 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     setIsEditable((prev) => !prev);
   };
 
+  const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
   const handlePage = (num: number) => {
     if (num === 1 || num === -1) {
       if (page === 1 && num === -1) {
@@ -282,9 +292,10 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
 
   useEffect(() => {
     queryParams.set("_page", `${page}`);
+    queryParams.set("q", `${searchValue}`);
     navigate(`/employees?${queryParams}`);
     getEmployees();
-  }, [page]);
+  }, [searchValue, page]);
 
   return (
     <EmployeesContext.Provider
@@ -305,6 +316,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         setIsEditable,
         setAllowDelete,
         handleDelete,
+        handleSearchInput,
+        searchTerm,
         handlePage,
         setPage,
       }}
