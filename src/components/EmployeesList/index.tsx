@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./EmployeesList.scss";
 import { EmployeesContext } from "../../context/EmployeesContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { EmployeeDetails } from "../EmployeeDetails";
 
 export const EmployeesList: React.FC = () => {
-
   const { id } = useParams();
   const { employeesList, page, maxPage, handlePage } =
     useContext(EmployeesContext);
+  const location = useLocation();
   const navigate = useNavigate();
 
   return (
@@ -29,7 +29,11 @@ export const EmployeesList: React.FC = () => {
             </thead>
             <tbody>
               {employeesList.map((employee) => (
-                <tr key={employee.id} onClick={() => navigate(`/employees/${employee.id}`)}>
+                <tr key={employee.id} onClick={() =>
+                      navigate(
+                        `${location.pathname}/${employee.id}${location.search}`
+                      )
+                    }>
                   <td>{employee.id}</td>
                   <td>{employee.firstName}</td>
                   <td>{employee.lastName}</td>
@@ -44,6 +48,7 @@ export const EmployeesList: React.FC = () => {
         <p>Brak pracowników</p>
       )}
       <div className="btn"><button onClick={() => handlePage(-1)} disabled={page === 1}>
+
           Prev
         </button>
         <span>
