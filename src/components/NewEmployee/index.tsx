@@ -1,16 +1,19 @@
 import { EmployeesContext } from "../../context/EmployeesContext";
 import { useContext } from "react";
 
+import "./NewEmployee.scss";
+
 export const NewEmployee = () => {
   const { newEmployeeInput, handleNewEmployeeInput, handleNewEmployeeSubmit } =
     useContext(EmployeesContext);
 
   return (
     <div className="new-employee">
-      <form onSubmit={handleNewEmployeeSubmit}>
-        <label htmlFor="firstName">
-          Imię:{" "}
+      <form onSubmit={handleNewEmployeeSubmit} className="new-employee__form">
+        <label htmlFor="firstName" className="new-employee__first-name">
+          First Name:{" "}
           <input
+            className="new-employee__input"
             id="firstName"
             type="text"
             name="firstName"
@@ -19,9 +22,10 @@ export const NewEmployee = () => {
             required
           />
         </label>
-        <label htmlFor="lastName">
-          Nazwisko:{" "}
+        <label htmlFor="lastName" className="new-employee__last-name">
+          Last Name:{" "}
           <input
+            className="new-employee__input"
             id="lastName"
             type="text"
             name="lastName"
@@ -30,9 +34,10 @@ export const NewEmployee = () => {
             required
           />
         </label>
-        <label htmlFor="birthDate">
-          Data urodzenia:{" "}
+        <label htmlFor="birthDate" className="new-employee__birth-date">
+          Birth Date:{" "}
           <input
+            className="new-employee__input"
             id="birthDate"
             type="date"
             name="birthDate"
@@ -42,64 +47,10 @@ export const NewEmployee = () => {
             onChange={handleNewEmployeeInput}
           />
         </label>
-        <label htmlFor="address">
-          Adres:{" "}
+        <label htmlFor="phone" className="new-employee__phone">
+          Phone:{" "}
           <input
-            id="address"
-            type="text"
-            name="address"
-            value={newEmployeeInput.address}
-            onChange={handleNewEmployeeInput}
-            required
-          />
-        </label>
-        <label htmlFor="city">
-          Miasto:{" "}
-          <input
-            id="city"
-            type="text"
-            name="city"
-            value={newEmployeeInput.city}
-            onChange={handleNewEmployeeInput}
-            required
-          />
-        </label>
-        <label htmlFor="postalCode">
-          Kod pocztowy:{" "}
-          <input
-            id="postalCode"
-            type="text"
-            name="postalCode"
-            value={newEmployeeInput.postalCode}
-            onChange={handleNewEmployeeInput}
-            required
-          />
-        </label>
-        <label htmlFor="salary">
-          Wynagrodzenie:{" "}
-          <input
-            id="salary"
-            type="number"
-            name="salary"
-            value={newEmployeeInput.salary}
-            onChange={handleNewEmployeeInput}
-            required
-          />
-        </label>
-        <label htmlFor="status">
-          Status:{" "}
-          <input
-            id="status"
-            type="text"
-            name="status"
-            value={newEmployeeInput.status}
-            onChange={handleNewEmployeeInput}
-            required
-          />
-        </label>
-        <label htmlFor="phone">
-          Telefon:{" "}
-          <input
+            className="new-employee__input"
             id="phone"
             type="text"
             name="phone"
@@ -108,7 +59,69 @@ export const NewEmployee = () => {
             required
           />
         </label>
-        <button type="submit">Dodaj pracownika</button>
+        <label htmlFor="address" className="new-employee__address">
+          Address:{" "}
+          <input
+            className="new-employee__input"
+            id="address"
+            type="text"
+            name="address"
+            value={newEmployeeInput.address}
+            onChange={handleNewEmployeeInput}
+            required
+          />
+        </label>
+        <label htmlFor="city" className="new-employee__city">
+          City:{" "}
+          <input
+            className="new-employee__input"
+            id="city"
+            type="text"
+            name="city"
+            value={newEmployeeInput.city}
+            onChange={handleNewEmployeeInput}
+            required
+          />
+        </label>
+        <label htmlFor="postalCode" className="new-employee__postal-code">
+          Postal Code:{" "}
+          <input
+            className="new-employee__input"
+            id="postalCode"
+            type="text"
+            name="postalCode"
+            value={newEmployeeInput.postalCode}
+            onChange={handleNewEmployeeInput}
+            required
+          />
+        </label>
+        <label htmlFor="salary" className="new-employee__salary">
+          Salary:{" "}
+          <input
+            className="new-employee__input"
+            id="salary"
+            type="number"
+            name="salary"
+            value={newEmployeeInput.salary}
+            onChange={handleNewEmployeeInput}
+            required
+          />
+        </label>
+        <label htmlFor="status" className="new-employee__status">
+          Status:{" "}
+          <input
+            className="new-employee__input"
+            id="status"
+            type="text"
+            name="status"
+            value={newEmployeeInput.status}
+            onChange={handleNewEmployeeInput}
+            required
+          />
+        </label>
+        <button type="submit" className="new-employee__submit">
+          Add New Employee
+        </button>
       </form>
     </div>
   );

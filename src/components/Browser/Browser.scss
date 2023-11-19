@@ -1,12 +1,15 @@
 .searching {
+  display: flex;
+  justify-content: center;
   border-radius: 8px;
-  font-size: 20px;
+  font-size: 15px;
   margin-left: 15px;
 }
 .button {
   border-radius: 8px;
-  font-size: 20px;
+  font-size: 15px;
   background-color: white;
+  align-items: center;
 }
 .button:hover {
   transition: 0.5s;

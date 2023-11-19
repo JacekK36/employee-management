@@ -7,6 +7,7 @@ import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { EmployeesProvider } from "./context/EmployeesContext";
 import { NewEmployee } from "./components/NewEmployee";
+import { Browser } from "./components/Browser";
 
 function App() {
   return (

@@ -2,10 +2,10 @@ import "./Footer.scss";
 
 export const Footer = () => {
   return (
-    <div className="authors">
+    <footer className="authors">
       <p>
-        Jacek Karol Krzysztof Natalia <br /> All rights reserved
+        Iryna Jacek Karol Krzysztof Natalia <br /> All rights reserved
       </p>
-    </div>
+    </footer>
   );
 };
