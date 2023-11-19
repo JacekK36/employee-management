@@ -6,8 +6,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDebounce } from "../Hooks/useDebounce";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type EmployeeType = {
   id?: number;
@@ -28,16 +28,22 @@ type EmployeesContextProps = {
   employee: EmployeeType;
   isEditable: boolean;
   allowDelete: boolean;
+  page: number;
+  maxPage: number;
   handleNewEmployeeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   handleNewEmployeeSubmit: (event: FormEvent<HTMLFormElement>) => void;
   getSingleEmployee: (id: string) => Promise<any>;
   handleEditEmployeeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   handleEditEmployee: (event: FormEvent<HTMLFormElement>) => void;
   toggleEditing: (id: string) => void;
+  setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
   setAllowDelete: React.Dispatch<React.SetStateAction<boolean>>;
   handleDelete: () => void;
+
   handleSearchInput: (event: ChangeEvent<HTMLInputElement>) => void;
   searchTerm: string;
+  handlePage: (num: number) => void;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 type EmployeesProviderProps = {
@@ -63,21 +69,47 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     status: "",
     phone: "",
   });
-  const [employee, setEmployee] = useState({} as EmployeeType);
+  const [employee, setEmployee] = useState({
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    salary: 0,
+    status: "",
+    phone: "",
+  } as EmployeeType);
   const [isEditable, setIsEditable] = useState(false);
   const [allowDelete, setAllowDelete] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const searchValue = useDebounce(searchTerm, 500);
+
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const queryParams = new URLSearchParams(location.search);
+  const pageParam = Number(queryParams.get("_page"));
+
+  const [page, setPage] = useState(pageParam || 1);
+  const [maxPage, setMaxPage] = useState(1);
 
   // wprowadzamy funkcję do pobrania danych
   const getEmployees = async () => {
-    const searchURL = searchValue.length > 0 ? `q=${searchValue}` : "";
+
+    const searchURL = searchValue.length > 0 ? `q=${searchValue}&` : "";
+    const limit = 5;
     try {
-      const response = await fetch(`${URL}/employees?${searchURL}`);
+      const response = await fetch(
+        `${URL}/employees?${searchURL}_page=${page}&_limit=${limit}`
+      );
+
 
       if (!response.ok)
         throw new Error("Somethnig went wrong while fetching Employees");
+
+      const count = await response.headers.get("X-Total-Count");
+      if (count) setMaxPage(Math.ceil(Number(count) / limit));
 
       const data = await response.json();
 
@@ -232,6 +264,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     event.preventDefault();
 
     editEmployee();
+    getEmployees();
   };
 
   const handleDelete = async () => {
@@ -247,13 +280,25 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     setIsEditable((prev) => !prev);
   };
 
+
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    setSearchTerm(event.target.value);}
+  const handlePage = (num: number) => {
+    if (num === 1 || num === -1) {
+      if (page === 1 && num === -1) {
+        return;
+      } else if (page === maxPage && num === 1) return;
+      setPage((prev) => prev + num);
+    }
   };
 
   useEffect(() => {
+    queryParams.set("_page", `${page}`);
+    queryParams.set("q", `${searchValue}`);
+    navigate(`/employees?${queryParams}`);
     getEmployees();
-  }, [searchValue]);
+
+  }, [searchValue, page]);
 
   return (
     <EmployeesContext.Provider
@@ -263,16 +308,21 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         employee,
         isEditable,
         allowDelete,
+        page,
+        maxPage,
         handleNewEmployeeInput,
         handleNewEmployeeSubmit,
         getSingleEmployee,
         handleEditEmployeeInput,
         handleEditEmployee,
         toggleEditing,
+        setIsEditable,
         setAllowDelete,
         handleDelete,
         handleSearchInput,
         searchTerm,
+        handlePage,
+        setPage,
       }}
     >
       {children}

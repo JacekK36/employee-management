@@ -20,7 +20,6 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />;
                 <Route path="/employees" element={<EmployeesList />} />;
-                <Route path="/browser" element={<Browser />} />;
                 <Route path="/employees/:id" element={<EmployeeDetails />} />;
                 <Route path="/employees/new" element={<NewEmployee />} />;
               </Routes>
