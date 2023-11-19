@@ -13,40 +13,42 @@ export const EmployeesList: React.FC = () => {
 
   return (
     <>
-      <div className="employees-list">
-        {employeesList.length > 0 ? (
-          <div className="employees-list__table">
-            <h2>Employees list</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Imię</th>
-                  <th>Nazwisko</th>
-                  <th>Data urodzenia</th>
-                </tr>
-              </thead>
-              <tbody>
-                {employeesList.map((employee) => (
-                  <tr
-                    key={employee.id}
-                    onClick={() =>
+    <div className="employees-list">
+      {employeesList.length > 0 ? (
+        <div className="employees-list__table">
+          <h2>Employees list</h2>
+          <table className="table">
+            <thead className="thead-dark">
+              <tr>
+                <th>ID</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Pensja</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employeesList.map((employee) => (
+                <tr key={employee.id} onClick={() =>
                       navigate(
                         `${location.pathname}/${employee.id}${location.search}`
                       )
-                    }
-                  >
-                    <td>{employee.firstName}</td>
-                    <td>{employee.lastName}</td>
-                    <td>{employee.birthDate}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <p>Brak pracowników</p>
-        )}
-        <button onClick={() => handlePage(-1)} disabled={page === 1}>
+                    }>
+                  <td>{employee.id}</td>
+                  <td>{employee.firstName}</td>
+                  <td>{employee.lastName}</td>
+                  <td>{employee.salary}</td>
+                  <td>{employee.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p>Brak pracowników</p>
+      )}
+      <div className="btn"><button onClick={() => handlePage(-1)} disabled={page === 1}>
+
           Prev
         </button>
         <span>
@@ -54,7 +56,8 @@ export const EmployeesList: React.FC = () => {
         </span>
         <button onClick={() => handlePage(1)} disabled={page === maxPage}>
           Next
-        </button>
+        </button></div>
+      
       </div>
       {id && <EmployeeDetails />}
     </>
