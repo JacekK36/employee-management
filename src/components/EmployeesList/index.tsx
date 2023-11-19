@@ -15,12 +15,12 @@ export const EmployeesList: React.FC = () => {
     <>
     <div className="employees-list">
       {employeesList.length > 0 ? (
-        <div className="employees-list__table">
+        <div className="employees-list__table table-responsive">
           <h2>Employees list</h2>
-          <table className="table">
+          <table className="table table-hover">
             <thead className="thead-dark">
               <tr>
-                <th>ID</th>
+                <th className="columnID">ID</th>
                 <th>Imię</th>
                 <th>Nazwisko</th>
                 <th>Pensja</th>
