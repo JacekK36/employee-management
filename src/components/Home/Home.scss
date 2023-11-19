@@ -6,19 +6,22 @@
   display: flex;
   justify-content: center;
 }
+
 .home__employees {
   display: flex;
   justify-content: center;
 }
+
 .homepage__text {
   display: flex;
   justify-content: center;
 }
-.home__button {
-  display: block;
-  justify-content: center;
+
+.btn-list {
+  border-radius: 8px;
 }
 
-.list-button {
-  border-radius: 8px;
+.homepage__link {
+  display: flex;
+  justify-content: center;
 }
