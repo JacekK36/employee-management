@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./EmployeeDetails.scss";
 import { useContext, useEffect } from "react";
 import { EmployeesContext } from "../../context/EmployeesContext";
@@ -18,6 +18,7 @@ export const EmployeeDetails = () => {
     setIsEditable,
   } = useContext(EmployeesContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (id) {
@@ -31,7 +32,9 @@ export const EmployeeDetails = () => {
     <>
       <div
         className="employee-details__background"
-        onClick={() => navigate(-1)}
+        onClick={() =>
+          navigate(`/${location.pathname.split("/")[1]}${location.search}`)
+        }
       ></div>
       <div className="employee-details__modal">
         <form onSubmit={handleEditEmployee} className="employee-details__form">

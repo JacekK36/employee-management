@@ -82,21 +82,21 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   } as EmployeeType);
   const [isEditable, setIsEditable] = useState(false);
   const [allowDelete, setAllowDelete] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const searchValue = useDebounce(searchTerm, 500);
 
   const location = useLocation();
   const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
   const pageParam = Number(queryParams.get("_page"));
+  const searchParam = queryParams.get("q");
 
   const [page, setPage] = useState(pageParam || 1);
   const [maxPage, setMaxPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState(searchParam || "");
+  const searchValue = useDebounce(searchTerm, 500);
 
   // wprowadzamy funkcję do pobrania danych
   const getEmployees = async () => {
-
     const searchURL = searchValue.length > 0 ? `q=${searchValue}&` : "";
     const limit = 5;
     try {
@@ -104,12 +104,15 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         `${URL}/employees?${searchURL}_page=${page}&_limit=${limit}`
       );
 
-
       if (!response.ok)
         throw new Error("Somethnig went wrong while fetching Employees");
 
-      const count = await response.headers.get("X-Total-Count");
-      if (count) setMaxPage(Math.ceil(Number(count) / limit));
+      const totalCount = response.headers.get("X-Total-Count");
+      const totalPages = Math.ceil(Number(totalCount) / limit);
+      if (totalPages) {
+        setMaxPage(totalPages);
+        if (page > totalPages) setPage(1);
+      }
 
       const data = await response.json();
 
@@ -187,7 +190,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       });
 
       const data = await response.json();
-      console.log(data);
+      return data;
     } catch (error) {
       return error;
     }
@@ -203,7 +206,6 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       });
 
       const data = await response.json();
-      console.log(data);
 
       return data;
     } catch (error) {
@@ -258,6 +260,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     const employee = addEmployee(newEmployee);
 
     if (typeof employee === "object") getEmployees();
+    navigate("/employees");
   };
 
   const handleEditEmployee = (event: FormEvent<HTMLFormElement>) => {
@@ -280,9 +283,10 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     setIsEditable((prev) => !prev);
   };
 
-
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);}
+    setSearchTerm(event.target.value);
+    setPage(1);
+  };
   const handlePage = (num: number) => {
     if (num === 1 || num === -1) {
       if (page === 1 && num === -1) {
@@ -293,11 +297,17 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   };
 
   useEffect(() => {
-    queryParams.set("_page", `${page}`);
-    queryParams.set("q", `${searchValue}`);
-    navigate(`/employees?${queryParams}`);
-    getEmployees();
+    searchValue.length > 0
+      ? queryParams.set("q", `${searchValue}`)
+      : queryParams.delete("q");
+    page > 1
+      ? queryParams.set("_page", `${page}`)
+      : queryParams.delete("_page");
 
+    navigate(`${location.pathname}?${queryParams}`);
+
+    getEmployees();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue, page]);
 
   return (
