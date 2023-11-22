@@ -1,57 +1,186 @@
-.header-box {
-  width: 100%;
-  height: 100px;
-  display: flex;
-  background-color: black;
-  position: fixed;
-  top: 0;
-}
-
-.logo-box {
-  display: flex;
-  justify-content: left;
-  width: 50%;
-  height: 100%;
-}
-
-.title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  margin-left: 15px;
-  font-size: 20px;
-}
-
-.browser {
-  display: flex;
-  justify-content: center;
-  margin-top: 35px;
-}
-.header {
-  width: 50%;
-  box-sizing: border-box;
-
-  &__list {
-    list-style: none;
+@media screen and (min-width: 1024px) {
+  .header-box {
+    width: 100%;
+    height: 100px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    background-color: black;
+    position: fixed;
+    top: 0;
+  }
+
+  .logo-box {
+    display: flex;
+    justify-content: left;
+    width: 50%;
+    height: 100%;
+  }
+
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: 15px;
+    font-size: 20px;
+  }
+
+  .browser {
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+  }
+  .header {
+    width: 50%;
+    box-sizing: border-box;
+
+    &__list {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin-top: 10px;
+    }
+
+    &__list-item {
+      text-decoration: none;
+      font-size: 15px;
+      color: white;
+    }
+
+    &__list-item:hover {
+      transition: 0.5s;
+      font-size: larger;
+      color: black;
+      border: 0px;
+      border-radius: 5px;
+      background-color: white;
+    }
+  }
+  .hamburger-btn {
+    display: none;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .header-box {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    background-color: black;
+    position: fixed;
+    top: 0;
+  }
+  .logo-box {
+    display: flex;
+    justify-content: left;
+    width: 50%;
+    height: 100%;
+  }
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
     margin-top: 10px;
   }
-
-  &__list-item {
-    text-decoration: none;
-    font-size: 15px;
-    color: white;
+  .browser {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
   }
+  .header {
+    width: 50%;
+    box-sizing: border-box;
+    &__list {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      list-style: none;
+      background-color: black;
+      border-radius: 8px;
+    }
 
-  &__list-item:hover {
-    transition: 0.5s;
-    font-size: larger;
-    color: black;
-    border: 0px;
-    border-radius: 5px;
-    background-color: white;
+    &__list-item {
+      margin-top: 10px;
+      text-decoration: none;
+      font-size: 10px;
+      color: white;
+    }
+    .header__list.open {
+      display: flex;
+    }
+    .hamburger-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 15px;
+      background: white;
+      border: solid 1px white;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .header-box {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    background-color: black;
+    position: fixed;
+    top: 0;
+  }
+  .logo-box {
+    display: flex;
+    justify-content: left;
+    width: 50%;
+    height: 100%;
+  }
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    margin-top: 10px;
+  }
+  .browser {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .header {
+    width: 50%;
+    box-sizing: border-box;
+    &__list {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      list-style: none;
+      background-color: black;
+      border-radius: 8px;
+    }
+
+    &__list-item {
+      margin-top: 10px;
+      text-decoration: none;
+      font-size: 10px;
+      color: white;
+    }
+    .header__list.open {
+      display: flex;
+    }
+    .hamburger-btn {
+      display: block;
+      font-size: 10px;
+      background: white;
+      border: solid 1px white;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
   }
 }
