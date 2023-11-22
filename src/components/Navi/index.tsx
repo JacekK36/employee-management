@@ -1,5 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
-import React from "react";
+import { NavLink } from "react-router-dom";
 import { Button, ButtonGroup } from "@mui/material";
 import "./Navi.scss";
 
