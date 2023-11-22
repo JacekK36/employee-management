@@ -27,7 +27,7 @@
   .browser {
     display: flex;
     justify-content: center;
-    margin-top: 35px;
+    align-items: center;
   }
   .header {
     width: 50%;
@@ -63,7 +63,7 @@
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .header-box {
     width: 100%;
-    height: 40px;
+    height: 100px;
     display: flex;
     background-color: black;
     position: fixed;
@@ -88,17 +88,21 @@
   .browser {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    align-items: center;
+    margin-left: 10px;
   }
   .header {
     width: 50%;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     &__list {
       display: none;
       flex-direction: column;
       align-items: center;
       list-style: none;
-      background-color: black;
       border-radius: 8px;
     }
 
@@ -110,6 +114,17 @@
     }
     .header__list.open {
       display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: auto;
+    }
+    .header__list-item:hover {
+      transition: 0.5s;
+      font-size: larger;
+      color: black;
+      border: 0px;
+      border-radius: 5px;
+      background-color: white;
     }
     .hamburger-btn {
       display: flex;
@@ -119,14 +134,14 @@
       background: white;
       border: solid 1px white;
       border-radius: 8px;
-      margin-top: 10px;
+      margin-right: 10px;
     }
   }
 }
 @media screen and (max-width: 768px) {
   .header-box {
     width: 100%;
-    height: 40px;
+    height: 100px;
     display: flex;
     background-color: black;
     position: fixed;
@@ -144,35 +159,50 @@
     align-items: center;
     flex-wrap: wrap;
     color: white;
-    margin-left: 10px;
+    margin-left: 5px;
     font-size: 15px;
     margin-top: 10px;
   }
   .browser {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    align-items: center;
+    margin-left: 10px;
   }
   .header {
     width: 50%;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     &__list {
       display: none;
       flex-direction: column;
       align-items: center;
       list-style: none;
-      background-color: black;
       border-radius: 8px;
     }
 
     &__list-item {
-      margin-top: 10px;
+      margin: auto;
       text-decoration: none;
       font-size: 15px;
       color: white;
     }
     .header__list.open {
       display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: auto;
+    }
+    .header__list-item:hover {
+      transition: 0.5s;
+      font-size: larger;
+      color: black;
+      border: 0px;
+      border-radius: 5px;
+      background-color: white;
     }
     .hamburger-btn {
       display: block;
@@ -180,7 +210,7 @@
       background: white;
       border: solid 1px white;
       border-radius: 8px;
-      margin-top: 10px;
+      margin-right: 10px;
     }
   }
 }
