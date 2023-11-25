@@ -17,30 +17,33 @@ export const Header = () => {
         <Logo />
         <h1 className="title">Employee Management App</h1>
       </div>
-      {location.pathname === "/employees" && (
-        <div className="browser">
-          <Browser />
-        </div>
-      )}
+
       <nav className="header">
         <button className="hamburger-btn" onClick={navBar}>
           &#9776;
         </button>
         <ul className={`header__list ${isOpenNav ? "open" : ""}`}>
-          <li>
+          <li onClick={navBar}>
             <NavLink to={"/"} className="header__list-item">
               Home
             </NavLink>
           </li>
-          <li>
+          <li onClick={navBar}>
             <NavLink to={"/employees"} className="header__list-item">
               Employees list
             </NavLink>
           </li>
-          <li>
+          <li onClick={navBar}>
             <NavLink to={"/employees/new"} className={"header__list-item"}>
               Add employee
             </NavLink>
+          </li>
+          <li>
+            {location.pathname === "/employees" && (
+              <div className="browser">
+                <Browser />
+              </div>
+            )}
           </li>
         </ul>
       </nav>
