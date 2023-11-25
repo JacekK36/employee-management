@@ -85,6 +85,12 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   const [isEditable, setIsEditable] = useState(false);
   const [allowDelete, setAllowDelete] = useState(false);
 
+  const [loaderEmployees, setLoaderEmployees] = useState(false);
+  const [loaderSingleEmployees, setLoaderSingleEmployees] = useState(false);
+  const [loaderAddEmployee, setLoaderAddEmployee] = useState(false);
+  const [loaderEditEmployee, setLoaderEditEmployee] = useState(false);
+  const [loaderDeleteEmployee, setLoaderDeleteEmployee] = useState(false);
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -106,6 +112,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     const pageUrl = page > 1 ? `&_page=${page}` : "";
     const orderUrl = order ? `&_sort=${sort}&_order=${order}` : "";
     const limit = 5;
+
+    setLoaderEmployees(true);
 
     try {
       const response = await fetch(
@@ -129,10 +137,13 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       return data;
     } catch (error) {
       return;
+    } finally {
+      setLoaderEmployees(false);
     }
   };
 
   const getSingleEmployee = async (id: string) => {
+    setLoaderSingleEmployees(true);
     try {
       const response = await fetch(`${URL}/employees/${id}`);
 
@@ -145,6 +156,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       return data;
     } catch (error) {
       return;
+    } finally {
+      setLoaderSingleEmployees(false);
     }
   };
 
@@ -161,6 +174,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       phone,
     } = newEmployee;
 
+    setLoaderAddEmployee(true);
     try {
       const response = await fetch(`${URL}/employees`, {
         method: "POST",
@@ -185,10 +199,13 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       return data;
     } catch (error) {
       return;
+    } finally {
+      setLoaderAddEmployee(false);
     }
   };
 
   const editEmployee = async () => {
+    setLoaderEditEmployee(true);
     try {
       const response = await fetch(`${URL}/employees/${employee.id}`, {
         method: "PUT",
@@ -204,10 +221,12 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       return;
     } finally {
       setIsEditable(false);
+      setLoaderEditEmployee(false);
     }
   };
 
   const deleteEmployee = async () => {
+    setLoaderDeleteEmployee(true);
     try {
       const response = await fetch(`${URL}/employees/${employee.id}`, {
         method: "DELETE",
@@ -219,6 +238,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       return data;
     } catch (error) {
       return;
+    } finally {
+      setLoaderDeleteEmployee(false);
     }
   };
 
