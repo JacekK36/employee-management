@@ -4,11 +4,16 @@ import { useContext } from "react";
 import "./NewEmployee.scss";
 
 export const NewEmployee = () => {
-  const { newEmployeeInput, handleNewEmployeeInput, handleNewEmployeeSubmit } =
-    useContext(EmployeesContext);
+  const {
+    newEmployeeInput,
+    newErrorMessage,
+    handleNewEmployeeInput,
+    handleNewEmployeeSubmit,
+  } = useContext(EmployeesContext);
 
   return (
     <div className="new-employee">
+      {newErrorMessage && <p>{newErrorMessage}</p>}
       <form onSubmit={handleNewEmployeeSubmit} className="new-employee__form">
         <label htmlFor="firstName" className="new-employee__first-name">
           First Name:{" "}
