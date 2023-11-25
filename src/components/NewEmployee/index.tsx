@@ -6,6 +6,7 @@ import "./NewEmployee.scss";
 export const NewEmployee = () => {
   const {
     newEmployeeInput,
+    newErrorMessage,
     loaderAddEmployee,
     handleNewEmployeeInput,
     handleNewEmployeeSubmit,
@@ -13,6 +14,7 @@ export const NewEmployee = () => {
 
   return (
     <div className="new-employee">
+      {newErrorMessage && <p>{newErrorMessage}</p>}
       <form onSubmit={handleNewEmployeeSubmit} className="new-employee__form">
         <label htmlFor="firstName" className="new-employee__first-name">
           First Name:{" "}

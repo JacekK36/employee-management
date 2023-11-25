@@ -9,6 +9,7 @@ export const EmployeeDetails = () => {
     employee,
     isEditable,
     allowDelete,
+    detailsErrorMessage,
     loaderSingleEmployees,
     loaderDeleteEmployee,
     loaderEditEmployee,
@@ -29,6 +30,7 @@ export const EmployeeDetails = () => {
       setIsEditable(false);
       getSingleEmployee(id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
@@ -44,6 +46,7 @@ export const EmployeeDetails = () => {
           <p>Loading...</p>
         ) : (
           <>
+            {detailsErrorMessage && <p>{detailsErrorMessage}</p>}
             <form
               onSubmit={handleEditEmployee}
               className="employee-details__form"

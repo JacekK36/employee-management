@@ -13,6 +13,7 @@ export const EmployeesList: React.FC = () => {
     maxPage,
     order,
     sort,
+    listErrorMessage,
     loaderEmployees,
     handlePage,
     handleOrder,
@@ -25,6 +26,8 @@ export const EmployeesList: React.FC = () => {
       <div className="employees-list">
         {loaderEmployees ? (
           <p>Loading...</p>
+        ) : listErrorMessage && !loaderEmployees ? (
+          <p>{listErrorMessage}</p>
         ) : (
           <>
             {employeesList.length > 0 ? (
