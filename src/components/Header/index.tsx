@@ -2,9 +2,15 @@ import "./Header.scss";
 import { NavLink, useLocation } from "react-router-dom";
 import { Browser } from "../Browser";
 import { Logo } from "../Logo";
+import { useState } from "react";
 
 export const Header = () => {
   const location = useLocation();
+  const [isOpenNav, setOpenNav] = useState(false);
+
+  const navBar = () => {
+    setOpenNav(!isOpenNav);
+  };
   return (
     <header className="header-box">
       <div className="logo-box">
@@ -17,7 +23,10 @@ export const Header = () => {
         </div>
       )}
       <nav className="header">
-        <ul className="header__list">
+        <button className="hamburger-btn" onClick={navBar}>
+          &#9776;
+        </button>
+        <ul className={`header__list ${isOpenNav ? "open" : ""}`}>
           <li>
             <NavLink to={"/"} className="header__list-item">
               Home

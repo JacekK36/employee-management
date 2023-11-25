@@ -6,6 +6,7 @@ import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { EmployeesProvider } from "./context/EmployeesContext";
 import { NewEmployee } from "./components/NewEmployee";
+import { NotFound } from "./components/NotFound";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/employees" element={<EmployeesList />} />;
                 <Route path="/employees/:id" element={<EmployeesList />} />;
                 <Route path="/employees/new" element={<NewEmployee />} />;
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
           </>

@@ -6,7 +6,7 @@ export const Browser = () => {
   const { searchTerm, handleSearchInput } = useContext(EmployeesContext);
 
   return (
-    <div>
+    <div className="searchBox">
       <input
         className="searching"
         type="search"
