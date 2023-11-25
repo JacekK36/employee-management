@@ -7,15 +7,23 @@ import { ReactComponent as SortIcon } from "../../assets/chevron-up-solid.svg";
 
 export const EmployeesList: React.FC = () => {
   const { id } = useParams();
-  const { employeesList, page, maxPage, order, sort, handlePage, handleOrder } =
-    useContext(EmployeesContext);
+  const {
+    employeesList,
+    page,
+    maxPage,
+    order,
+    sort,
+    loaderEmployees,
+    handlePage,
+    handleOrder,
+  } = useContext(EmployeesContext);
   const location = useLocation();
   const navigate = useNavigate();
 
   return (
     <>
       <div className="employees-list">
-        {"loaderEmployees" ? (
+        {loaderEmployees ? (
           <p>Loading...</p>
         ) : (
           <>

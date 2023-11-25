@@ -33,6 +33,11 @@ type EmployeesContextProps = {
   searchTerm: string;
   sort: string;
   order: string;
+  loaderEmployees: boolean;
+  loaderSingleEmployees: boolean;
+  loaderAddEmployee: boolean;
+  loaderEditEmployee: boolean;
+  loaderDeleteEmployee: boolean;
   handleNewEmployeeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   handleNewEmployeeSubmit: (event: FormEvent<HTMLFormElement>) => void;
   getSingleEmployee: (id: string) => Promise<any>;
@@ -367,6 +372,11 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         searchTerm,
         sort,
         order,
+        loaderEmployees,
+        loaderSingleEmployees,
+        loaderAddEmployee,
+        loaderEditEmployee,
+        loaderDeleteEmployee,
         handleNewEmployeeInput,
         handleNewEmployeeSubmit,
         getSingleEmployee,
