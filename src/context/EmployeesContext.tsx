@@ -33,6 +33,11 @@ type EmployeesContextProps = {
   searchTerm: string;
   sort: string;
   order: string;
+  loaderEmployees: boolean;
+  loaderSingleEmployees: boolean;
+  loaderAddEmployee: boolean;
+  loaderEditEmployee: boolean;
+  loaderDeleteEmployee: boolean;
   handleNewEmployeeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   handleNewEmployeeSubmit: (event: FormEvent<HTMLFormElement>) => void;
   getSingleEmployee: (id: string) => Promise<any>;
@@ -85,6 +90,12 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   const [isEditable, setIsEditable] = useState(false);
   const [allowDelete, setAllowDelete] = useState(false);
 
+  const [loaderEmployees, setLoaderEmployees] = useState(false);
+  const [loaderSingleEmployees, setLoaderSingleEmployees] = useState(false);
+  const [loaderAddEmployee, setLoaderAddEmployee] = useState(false);
+  const [loaderEditEmployee, setLoaderEditEmployee] = useState(false);
+  const [loaderDeleteEmployee, setLoaderDeleteEmployee] = useState(false);
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -106,6 +117,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     const pageUrl = page > 1 ? `&_page=${page}` : "";
     const orderUrl = order ? `&_sort=${sort}&_order=${order}` : "";
     const limit = 5;
+
+    setLoaderEmployees(true);
 
     try {
       const response = await fetch(
@@ -129,10 +142,13 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       return data;
     } catch (error) {
       return;
+    } finally {
+      setLoaderEmployees(false);
     }
   };
 
   const getSingleEmployee = async (id: string) => {
+    setLoaderSingleEmployees(true);
     try {
       const response = await fetch(`${URL}/employees/${id}`);
 
@@ -145,6 +161,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       return data;
     } catch (error) {
       return;
+    } finally {
+      setLoaderSingleEmployees(false);
     }
   };
 
@@ -161,6 +179,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       phone,
     } = newEmployee;
 
+    setLoaderAddEmployee(true);
     try {
       const response = await fetch(`${URL}/employees`, {
         method: "POST",
@@ -185,10 +204,13 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       return data;
     } catch (error) {
       return;
+    } finally {
+      setLoaderAddEmployee(false);
     }
   };
 
   const editEmployee = async () => {
+    setLoaderEditEmployee(true);
     try {
       const response = await fetch(`${URL}/employees/${employee.id}`, {
         method: "PUT",
@@ -204,10 +226,12 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       return;
     } finally {
       setIsEditable(false);
+      setLoaderEditEmployee(false);
     }
   };
 
   const deleteEmployee = async () => {
+    setLoaderDeleteEmployee(true);
     try {
       const response = await fetch(`${URL}/employees/${employee.id}`, {
         method: "DELETE",
@@ -219,6 +243,8 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       return data;
     } catch (error) {
       return;
+    } finally {
+      setLoaderDeleteEmployee(false);
     }
   };
 
@@ -252,6 +278,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       newEmployeeInput.phone.length < 9
     ) {
       alert("Wypełnij pola prawidłowo");
+      return;
     }
 
     const newEmployee = {
@@ -268,7 +295,20 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
 
     const employee = addEmployee(newEmployee);
 
-    if (typeof employee === "object") getEmployees();
+    if (typeof employee === "object") {
+      setNewEmployeeInput({
+        firstName: "",
+        lastName: "",
+        birthDate: "",
+        address: "",
+        city: "",
+        postalCode: "",
+        salary: 0,
+        status: "",
+        phone: "",
+      });
+      getEmployees();
+    }
     navigate("/employees");
   };
 
@@ -346,6 +386,11 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         searchTerm,
         sort,
         order,
+        loaderEmployees,
+        loaderSingleEmployees,
+        loaderAddEmployee,
+        loaderEditEmployee,
+        loaderDeleteEmployee,
         handleNewEmployeeInput,
         handleNewEmployeeSubmit,
         getSingleEmployee,

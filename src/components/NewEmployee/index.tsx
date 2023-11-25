@@ -4,8 +4,12 @@ import { useContext } from "react";
 import "./NewEmployee.scss";
 
 export const NewEmployee = () => {
-  const { newEmployeeInput, handleNewEmployeeInput, handleNewEmployeeSubmit } =
-    useContext(EmployeesContext);
+  const {
+    newEmployeeInput,
+    loaderAddEmployee,
+    handleNewEmployeeInput,
+    handleNewEmployeeSubmit,
+  } = useContext(EmployeesContext);
 
   return (
     <div className="new-employee">
@@ -119,9 +123,13 @@ export const NewEmployee = () => {
             required
           />
         </label>
-        <button type="submit" className="new-employee__submit">
-          Add New Employee
-        </button>
+        {loaderAddEmployee ? (
+          <p>Loading...</p>
+        ) : (
+          <button type="submit" className="new-employee__submit">
+            Add New Employee
+          </button>
+        )}
       </form>
     </div>
   );
