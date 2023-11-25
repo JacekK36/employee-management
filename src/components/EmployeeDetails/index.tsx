@@ -9,6 +9,7 @@ export const EmployeeDetails = () => {
     employee,
     isEditable,
     allowDelete,
+    detailsErrorMessage,
     handleEditEmployeeInput,
     handleEditEmployee,
     getSingleEmployee,
@@ -37,6 +38,7 @@ export const EmployeeDetails = () => {
         }
       ></div>
       <div className="employee-details__modal">
+        {detailsErrorMessage && <p>{detailsErrorMessage}</p>}
         <form onSubmit={handleEditEmployee} className="employee-details__form">
           <input type="hidden" value={id} />
           <label htmlFor="firstName" className="employee-details__first-name">

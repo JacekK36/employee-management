@@ -33,6 +33,9 @@ type EmployeesContextProps = {
   searchTerm: string;
   sort: string;
   order: string;
+  listErrorMessage: string;
+  detailsErrorMessage: string;
+  newErrorMessage: string;
   handleNewEmployeeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   handleNewEmployeeSubmit: (event: FormEvent<HTMLFormElement>) => void;
   getSingleEmployee: (id: string) => Promise<any>;
@@ -100,6 +103,9 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   const searchValue = useDebounce(searchTerm, 500);
   const [sort, setSort] = useState(sortParam || "id");
   const [order, setOrder] = useState(orderParam || "asc");
+  const [listErrorMessage, setListErrorMessage] = useState("");
+  const [detailsErrorMessage, setDetailsErrorMessage] = useState("");
+  const [newErrorMessage, setNewErrorMessage] = useState("");
 
   const getEmployees = async () => {
     const searchURL = searchValue.length > 0 ? `q=${searchValue}` : "";
@@ -113,7 +119,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       );
 
       if (!response.ok)
-        throw new Error("Somethnig went wrong while fetching Employees");
+        throw new Error("Something went wrong while fetching Employees");
 
       const totalCount = response.headers.get("X-Total-Count");
       const totalPages = Math.ceil(Number(totalCount) / limit);
@@ -128,6 +134,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       setEmployeesList(data);
       return data;
     } catch (error) {
+      setListErrorMessage("Error while fetching data from the server");
       return;
     }
   };
@@ -135,15 +142,17 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   const getSingleEmployee = async (id: string) => {
     try {
       const response = await fetch(`${URL}/employees/${id}`);
-
+      if (response.status === 404) navigate("/not-found");
       if (!response.ok)
         throw new Error("Somethnig went wrong while fetching Employee");
-
       const data = await response.json();
+      console.log(data);
 
       setEmployee(data);
       return data;
     } catch (error) {
+      setDetailsErrorMessage("Error while fetching data from the server");
+
       return;
     }
   };
@@ -184,6 +193,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       const data = await response.json();
       return data;
     } catch (error) {
+      setNewErrorMessage("Error while fetching data from the server");
       return;
     }
   };
@@ -201,6 +211,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       const data = await response.json();
       return data;
     } catch (error) {
+      setDetailsErrorMessage("Error while editing user");
       return;
     } finally {
       setIsEditable(false);
@@ -218,6 +229,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
 
       return data;
     } catch (error) {
+      setDetailsErrorMessage("Error while deleting user");
       return;
     }
   };
@@ -333,6 +345,12 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue, page, order, sort]);
 
+  useEffect(() => {
+    setListErrorMessage("");
+    setDetailsErrorMessage("");
+    setNewErrorMessage("");
+  }, []);
+
   return (
     <EmployeesContext.Provider
       value={{
@@ -346,6 +364,9 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         searchTerm,
         sort,
         order,
+        listErrorMessage,
+        detailsErrorMessage,
+        newErrorMessage,
         handleNewEmployeeInput,
         handleNewEmployeeSubmit,
         getSingleEmployee,
