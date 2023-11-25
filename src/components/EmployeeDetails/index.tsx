@@ -10,8 +10,8 @@ export const EmployeeDetails = () => {
     isEditable,
     allowDelete,
     loaderSingleEmployees,
-    loaderEditEmployee,
     loaderDeleteEmployee,
+    loaderEditEmployee,
     handleEditEmployeeInput,
     handleEditEmployee,
     getSingleEmployee,
@@ -38,11 +38,9 @@ export const EmployeeDetails = () => {
         onClick={() =>
           navigate(`/${location.pathname.split("/")[1]}${location.search}`)
         }
-      >
-        {loaderSingleEmployees ? <p>Loading...</p> : <></>}
-      </div>
+      ></div>
       <div className="employee-details__modal">
-        {loaderEditEmployee ? (
+        {loaderSingleEmployees ? (
           <p>Loading...</p>
         ) : (
           <>
@@ -189,16 +187,22 @@ export const EmployeeDetails = () => {
               )}
               {isEditable && (
                 <>
-                  <button type="submit" className="employee-details__save">
-                    Save
-                  </button>
-                  <button
-                    type="button"
-                    className="employee-details__cancel"
-                    onClick={() => toggleEditing(id!)}
-                  >
-                    Cancel
-                  </button>
+                  {loaderEditEmployee ? (
+                    <p>Loading...</p>
+                  ) : (
+                    <>
+                      <button type="submit" className="employee-details__save">
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        className="employee-details__cancel"
+                        onClick={() => toggleEditing(id!)}
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  )}
                 </>
               )}
               <button
@@ -212,31 +216,32 @@ export const EmployeeDetails = () => {
 
             {allowDelete && (
               <div className="employee-details__allow">
+                <p>
+                  Are you sure you want to remove{" "}
+                  <b>
+                    {employee.firstName} {employee.lastName}
+                  </b>{" "}
+                  from your employee list?
+                </p>
+
                 {loaderDeleteEmployee ? (
                   <p>Loading...</p>
                 ) : (
                   <>
-                    <p>
-                      Are you sure you want to remove{" "}
-                      <b>
-                        {employee.firstName} {employee.lastName}
-                      </b>{" "}
-                      from your employee list?
-                    </p>
+                    <button
+                      className="employee-details__save"
+                      onClick={handleDelete}
+                    >
+                      Yes
+                    </button>
+                    <button
+                      className="employee-details__cancel"
+                      onClick={() => setAllowDelete(false)}
+                    >
+                      No
+                    </button>
                   </>
                 )}
-                <button
-                  className="employee-details__save"
-                  onClick={handleDelete}
-                >
-                  Yes
-                </button>
-                <button
-                  className="employee-details__cancel"
-                  onClick={() => setAllowDelete(false)}
-                >
-                  No
-                </button>
               </div>
             )}
           </>

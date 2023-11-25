@@ -278,6 +278,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       newEmployeeInput.phone.length < 9
     ) {
       alert("Wypełnij pola prawidłowo");
+      return;
     }
 
     const newEmployee = {
@@ -294,7 +295,20 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
 
     const employee = addEmployee(newEmployee);
 
-    if (typeof employee === "object") getEmployees();
+    if (typeof employee === "object") {
+      setNewEmployeeInput({
+        firstName: "",
+        lastName: "",
+        birthDate: "",
+        address: "",
+        city: "",
+        postalCode: "",
+        salary: 0,
+        status: "",
+        phone: "",
+      });
+      getEmployees();
+    }
     navigate("/employees");
   };
 
