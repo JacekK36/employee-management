@@ -14,6 +14,7 @@ export const EmployeesList: React.FC = () => {
     order,
     sort,
     listErrorMessage,
+    loaderEmployees,
     handlePage,
     handleOrder,
   } = useContext(EmployeesContext);
@@ -23,7 +24,9 @@ export const EmployeesList: React.FC = () => {
   return (
     <>
       <div className="employees-list">
-        {listErrorMessage ? (
+        {loaderEmployees ? (
+          <p>Loading...</p>
+        ) : listErrorMessage && !loaderEmployees ? (
           <p>{listErrorMessage}</p>
         ) : (
           <>
@@ -118,20 +121,21 @@ export const EmployeesList: React.FC = () => {
             ) : (
               <p>Brak pracowników</p>
             )}
+            <div className="btn">
+              <button onClick={() => handlePage(-1)} disabled={page === 1}>
+                Prev
+              </button>
+              <span>
+                {page} of {maxPage}
+              </span>
+              <button onClick={() => handlePage(1)} disabled={page === maxPage}>
+                Next
+              </button>
+            </div>
           </>
         )}
-        <div className="btn">
-          <button onClick={() => handlePage(-1)} disabled={page === 1}>
-            Prev
-          </button>
-          <span>
-            {page} of {maxPage}
-          </span>
-          <button onClick={() => handlePage(1)} disabled={page === maxPage}>
-            Next
-          </button>
-        </div>
       </div>
+
       {id && <EmployeeDetails />}
     </>
   );

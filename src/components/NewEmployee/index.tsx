@@ -7,6 +7,7 @@ export const NewEmployee = () => {
   const {
     newEmployeeInput,
     newErrorMessage,
+    loaderAddEmployee,
     handleNewEmployeeInput,
     handleNewEmployeeSubmit,
   } = useContext(EmployeesContext);
@@ -124,9 +125,13 @@ export const NewEmployee = () => {
             required
           />
         </label>
-        <button type="submit" className="new-employee__submit">
-          Add New Employee
-        </button>
+        {loaderAddEmployee ? (
+          <p>Loading...</p>
+        ) : (
+          <button type="submit" className="new-employee__submit">
+            Add New Employee
+          </button>
+        )}
       </form>
     </div>
   );
