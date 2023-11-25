@@ -1,19 +1,18 @@
-import { useContext } from "react";
 import "./Home.scss";
-import { EmployeesContext } from "../../context/EmployeesContext";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
-  const { employeesList } = useContext(EmployeesContext);
   return (
     <div className="home">
       <h1 className="home__title">Welcome to the employee-management App</h1>
-      <p className="home__employees">
-        Number of activ Employees: {employeesList.length}
-      </p>
       <h4 className="homepage__text">Employees List</h4>
-      <button type="submit" className="list-button">
-        Go to List
-      </button>
+      <div className="homepage__link">
+        <Link to="/employees" className="btn-link">
+          <button type="button" className="btn-list">
+            Go to List
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };

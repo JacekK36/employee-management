@@ -30,6 +30,9 @@ type EmployeesContextProps = {
   allowDelete: boolean;
   page: number;
   maxPage: number;
+  searchTerm: string;
+  sort: string;
+  order: string;
   handleNewEmployeeInput: (event: ChangeEvent<HTMLInputElement>) => void;
   handleNewEmployeeSubmit: (event: FormEvent<HTMLFormElement>) => void;
   getSingleEmployee: (id: string) => Promise<any>;
@@ -39,11 +42,10 @@ type EmployeesContextProps = {
   setIsEditable: React.Dispatch<React.SetStateAction<boolean>>;
   setAllowDelete: React.Dispatch<React.SetStateAction<boolean>>;
   handleDelete: () => void;
-
   handleSearchInput: (event: ChangeEvent<HTMLInputElement>) => void;
-  searchTerm: string;
   handlePage: (num: number) => void;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  handleOrder: (sortBy: string) => void;
 };
 
 type EmployeesProviderProps = {
@@ -89,19 +91,25 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
   const queryParams = new URLSearchParams(location.search);
   const pageParam = Number(queryParams.get("_page"));
   const searchParam = queryParams.get("q");
+  const sortParam = queryParams.get("sort");
+  const orderParam = queryParams.get("order");
 
   const [page, setPage] = useState(pageParam || 1);
   const [maxPage, setMaxPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState(searchParam || "");
   const searchValue = useDebounce(searchTerm, 500);
+  const [sort, setSort] = useState(sortParam || "id");
+  const [order, setOrder] = useState(orderParam || "asc");
 
-  // wprowadzamy funkcję do pobrania danych
   const getEmployees = async () => {
-    const searchURL = searchValue.length > 0 ? `q=${searchValue}&` : "";
+    const searchURL = searchValue.length > 0 ? `q=${searchValue}` : "";
+    const pageUrl = page > 1 ? `&_page=${page}` : "";
+    const orderUrl = order ? `&_sort=${sort}&_order=${order}` : "";
     const limit = 5;
+
     try {
       const response = await fetch(
-        `${URL}/employees?${searchURL}_page=${page}&_limit=${limit}`
+        `${URL}/employees?${searchURL}${pageUrl}${orderUrl}&_limit=${limit}`
       );
 
       if (!response.ok)
@@ -115,11 +123,12 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       }
 
       const data = await response.json();
+      if (data.length === 0) setMaxPage(1);
 
       setEmployeesList(data);
       return data;
     } catch (error) {
-      throw new Error();
+      return;
     }
   };
 
@@ -135,7 +144,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       setEmployee(data);
       return data;
     } catch (error) {
-      throw new Error();
+      return;
     }
   };
 
@@ -175,7 +184,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       const data = await response.json();
       return data;
     } catch (error) {
-      return error;
+      return;
     }
   };
 
@@ -192,10 +201,10 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       const data = await response.json();
       return data;
     } catch (error) {
-      return error;
+      return;
+    } finally {
+      setIsEditable(false);
     }
-
-    setIsEditable(false);
   };
 
   const deleteEmployee = async () => {
@@ -209,7 +218,7 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
 
       return data;
     } catch (error) {
-      return error;
+      return;
     }
   };
 
@@ -296,6 +305,12 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
     }
   };
 
+  const handleOrder = (sortBy: string) => {
+    setSort(sortBy);
+    if (order === "desc") setOrder("asc");
+    else if (order === "asc") setOrder("desc");
+  };
+
   useEffect(() => {
     searchValue.length > 0
       ? queryParams.set("q", `${searchValue}`)
@@ -304,11 +319,19 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
       ? queryParams.set("_page", `${page}`)
       : queryParams.delete("_page");
 
+    if (order) {
+      queryParams.set("sort", `${sort}`);
+      queryParams.set("order", `${order}`);
+    } else {
+      queryParams.delete("sort");
+      queryParams.delete("order");
+    }
+
     navigate(`${location.pathname}?${queryParams}`);
 
     getEmployees();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchValue, page]);
+  }, [searchValue, page, order, sort]);
 
   return (
     <EmployeesContext.Provider
@@ -320,6 +343,9 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         allowDelete,
         page,
         maxPage,
+        searchTerm,
+        sort,
+        order,
         handleNewEmployeeInput,
         handleNewEmployeeSubmit,
         getSingleEmployee,
@@ -330,9 +356,9 @@ export const EmployeesProvider = ({ children }: EmployeesProviderProps) => {
         setAllowDelete,
         handleDelete,
         handleSearchInput,
-        searchTerm,
         handlePage,
         setPage,
+        handleOrder,
       }}
     >
       {children}
