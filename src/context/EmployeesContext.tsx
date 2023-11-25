@@ -55,7 +55,7 @@ type EmployeesProviderProps = {
   children: JSX.Element;
 };
 
-const URL = "http://localhost:5000";
+const URL = "https://sore-blue-bullfrog-garb.cyclic.app/";
 
 export const EmployeesContext = createContext<EmployeesContextProps>(
   {} as EmployeesContextProps
