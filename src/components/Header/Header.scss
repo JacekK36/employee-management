@@ -1,0 +1,228 @@
+@media screen and (min-width: 1024px) {
+  .header-box {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    background-color: black;
+    position: fixed;
+    top: 0;
+  }
+
+  .logo-box {
+    display: flex;
+    justify-content: left;
+    width: 50%;
+    height: 100%;
+  }
+
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: 15px;
+    font-size: 20px;
+  }
+
+  .browser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .header {
+    width: 50%;
+    box-sizing: border-box;
+
+    &__list {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin-top: 10px;
+    }
+
+    &__list-item {
+      text-decoration: none;
+      font-size: 15px;
+      color: white;
+    }
+
+    &__list-item:hover {
+      transition: 0.5s;
+      font-size: larger;
+      color: black;
+      border: 0px;
+      border-radius: 5px;
+      background-color: white;
+    }
+  }
+  .hamburger-btn {
+    display: none;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .header-box {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    background-color: black;
+    position: fixed;
+    top: 0;
+  }
+  .logo-box {
+    display: flex;
+    justify-content: left;
+    width: 50%;
+    height: 100%;
+  }
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    color: white;
+    margin-left: 10px;
+    font-size: 15px;
+    margin-top: 10px;
+  }
+  .browser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+  }
+  .header {
+    width: 50%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    &__list {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      list-style: none;
+      border-radius: 0 0 8px 8px;
+    }
+
+    &__list-item {
+      margin-top: 10px;
+      text-decoration: none;
+      font-size: 15px;
+      color: white;
+    }
+    .header__list.open {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: auto;
+      position: absolute;
+      right: 0;
+      top: 100px;
+      background-color: black;
+      padding: 15px;
+      min-width: 180px;
+    }
+    .header__list-item:hover {
+      transition: 0.5s;
+      font-size: larger;
+      color: black;
+      border: 0px;
+      border-radius: 5px;
+      background-color: white;
+    }
+    .hamburger-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 15px;
+      background: white;
+      border: solid 1px white;
+      border-radius: 8px;
+      margin-right: 10px;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .header-box {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    background-color: black;
+    position: fixed;
+    top: 0;
+  }
+  .logo-box {
+    display: flex;
+    justify-content: left;
+    width: 50%;
+    height: 100%;
+  }
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    color: white;
+    margin-left: 5px;
+    font-size: 15px;
+    margin-top: 10px;
+  }
+  .browser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+  }
+  .header {
+    width: 50%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    &__list {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      list-style: none;
+      border-radius: 0 0 8px 8px;
+    }
+
+    &__list-item {
+      margin: auto;
+      text-decoration: none;
+      font-size: 15px;
+      color: white;
+    }
+    .header__list.open {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: auto;
+      position: absolute;
+      right: 0;
+      top: 100px;
+      background-color: black;
+      padding: 15px;
+      min-width: 180px;
+    }
+    .header__list-item:hover {
+      transition: 0.5s;
+      font-size: larger;
+      color: black;
+      border: 0px;
+      border-radius: 5px;
+      background-color: white;
+    }
+    .hamburger-btn {
+      display: block;
+      font-size: 10px;
+      background: white;
+      border: solid 1px white;
+      border-radius: 8px;
+      margin-right: 10px;
+    }
+  }
+}

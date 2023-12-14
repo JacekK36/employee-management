@@ -1,0 +1,53 @@
+@import url(Home.css);
+
+.home {
+  margin: auto;
+  padding: 10px;
+}
+.home__title {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .home__title {
+    margin-top: 50px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+  }
+  .homepage__text {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .btn-list {
+    margin-top: 20px;
+    border-radius: 8px;
+  }
+}
+@media screen and (min-width: 769px) {
+  .home__title {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .homepage__text {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .btn-list {
+    margin-top: 100px;
+    border-radius: 8px;
+  }
+}
+
+
+.homepage__link {
+  display: flex;
+  justify-content: center;
+}

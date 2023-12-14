@@ -1,0 +1,51 @@
+@media screen and (min-width: 1024px) {
+  .authors {
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+    background-color: black;
+
+    &__text {
+      margin: auto;
+    }
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .authors {
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+    font-weight: bold;
+    background-color: black;
+
+    &__text {
+      margin: auto;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .authors {
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+    font-weight: bold;
+    background-color: black;
+
+    &__text {
+      margin: auto;
+    }
+  }
+}

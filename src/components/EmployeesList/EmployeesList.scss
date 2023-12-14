@@ -1,0 +1,53 @@
+.employees-list {
+  margin-top: 20px;
+  &__table {
+    text-align: center;
+    margin: 10px;
+    list-style: none;
+    padding: 0;
+    vertical-align: center;
+  }
+  &____table-head {
+    vertical-align: center;
+  }
+  &__sort {
+    width: 30px;
+    vertical-align: bottom;
+    margin: 0 0 0 10px;
+    transform: rotateZ(0deg);
+    &--asc {
+      transform: rotateZ(0deg);
+    }
+    &--desc {
+      transform: rotateZ(180deg);
+    }
+  }
+}
+.table {
+  width: 90%;
+  margin: auto;
+  border-collapse: collapse;
+  border: 4px solid black;
+}
+@media screen and (max-width: 960px) {
+  .employees-list__table {
+    overflow-x: auto;
+  }
+}
+.employees-list__table tr {
+  overflow-x: auto;
+  border: 1px solid #ccc;
+  padding: 10px 10px 10px 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  margin: 5px 0;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.columnID {
+  max-width: 20px;
+}
